@@ -1,21 +1,44 @@
 import "./App.css";
-import { Heading } from "./components/heading";
+import { Container } from "./components/Container";
+import { CountDown } from "./components/CountDown";
+import { Logo } from "./components/Logo";
+import { Menu } from "./components/Menu";
 import "./styles/global.css";
 import "./styles/theme.css";
 
 function App() {
   return (
     <>
-      <Heading>Olá mundo 1!</Heading>
-      <Heading>Olá mundo 2!</Heading>
-      <Heading>Olá mundo 3!</Heading>
-      <p>
-        It is a long established fact that a reader will be distracted by the
-        readable content of a page when looking at its layout. The point of
-        using Lorem Ipsum is that it has a more-or-less normal distribution of
-        letters, as opposed to using 'Content here, content here', making it
-        look like readable English.
-      </p>
+      <Container>
+        <Logo />
+      </Container>
+      <Container>
+        <Menu />
+      </Container>
+      <Container>
+        <CountDown />
+      </Container>
+      <Container>
+        <form className="form" action="">
+          <div className="formRow">
+            <label htmlFor="input">task</label>
+            <input id="input" type="text"></input>
+          </div>
+
+          <div className="formRow">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+
+          <div className="formRow">
+            <p>Ciclos</p>
+            <p>0 0 0 0 0 0 0 0</p>
+          </div>
+
+          <div className="formRow">
+            <button>Enviar</button>
+          </div>
+        </form>
+      </Container>
     </>
   );
 }
