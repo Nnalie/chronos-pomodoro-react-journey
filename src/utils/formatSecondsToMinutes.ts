@@ -8,5 +8,5 @@ export function formatSecondsToMinutes(seconds: number) {
   número com duas casas ele adiciona o '0' na frente.
   */
   const secondsMod = String(Math.floor(seconds % 60)).padStart(2, "0");
-  return `${minutes}:${secondsMod}}`;
+  return `${minutes}:${secondsMod}`;
 }

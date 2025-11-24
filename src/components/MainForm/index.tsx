@@ -1,4 +1,4 @@
-import { PlayCircleIcon } from "lucide-react";
+import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
 import { Cycles } from "../Cycles";
 import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
@@ -14,10 +14,11 @@ export function MainForm() {
   // const [taskName, setTaskName] = useState("");
   const taskNameInput = useRef<HTMLInputElement>(null);
 
-  const nextCycle = getNextCycle(state.currenteCycle);
-  const nextCycleType = getNextCycleType(state.currenteCycle);
+  const nextCycle = getNextCycle(state.currentCycle);
+  const nextCycleType = getNextCycleType(state.currentCycle);
 
   function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
+    console.log(state);
     event.preventDefault();
 
     if (taskNameInput.current === null) return;
@@ -52,6 +53,26 @@ export function MainForm() {
       };
     });
   }
+  function handleInterruptTask(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    event.preventDefault();
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        activeTask: null,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: "00:00",
+        tasks: prevState.tasks.map((task) => {
+          if (prevState.activeTask?.id === task.id) {
+            return { ...task, interruptDate: Date.now() };
+          }
+          return task;
+        }),
+      };
+    });
+  }
 
   return (
     <form onSubmit={handleCreateNewTask} className="form" action="">
@@ -73,19 +94,40 @@ export function MainForm() {
            * o input será somente validado após o envio dele.
            */
           ref={taskNameInput}
+          disabled={!!state.activeTask}
         />
       </div>
 
       <div className="formRow">
-        <p>Lorem ipsum dolor sit amet.</p>
+        <p>Próximo intervalo é de 25min</p>
       </div>
 
-      <div className="formRow">
-        <Cycles />
-      </div>
+      {state.currentCycle > 0 && (
+        <div className="formRow">
+          <Cycles />
+        </div>
+      )}
 
       <div className="formRow">
-        <DefaultButton icon={<PlayCircleIcon />} color="green" />
+        {!state.activeTask ? (
+          <DefaultButton
+            aria-label="Iniciar nova tarefa"
+            title="Iniciar nova tarefa"
+            type="submit"
+            icon={<PlayCircleIcon />}
+            key="submit_button"
+          />
+        ) : (
+          <DefaultButton
+            aria-label="Interromper tarefa atual"
+            title="Interromper tarefa atual"
+            type="button"
+            color="red"
+            icon={<StopCircleIcon />}
+            onClick={handleInterruptTask}
+            key="button_button"
+          />
+        )}
       </div>
     </form>
   );
