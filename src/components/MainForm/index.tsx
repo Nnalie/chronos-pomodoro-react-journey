@@ -7,6 +7,7 @@ import type { TaskModel } from "../../models/taskModel";
 import { useTaskContext } from "../../contexts/TaskContext/UseTaskContext";
 import { getNextCycleType } from "../../utils/getNextCycleType";
 import { TaskActionTypes } from "../../contexts/TaskContext/TaskActions";
+import { Tips } from "../Tips";
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -39,6 +40,12 @@ export function MainForm() {
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
+
+    const worker = new Worker(
+      new URL("../../workers/timerWorkers.js", import.meta.url)
+    );
+
+    worker.postMessage("Olá mundo!");
   }
   function handleInterruptTask(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -73,7 +80,7 @@ export function MainForm() {
       </div>
 
       <div className="formRow">
-        <p>Próximo intervalo é de 25min</p>
+        <Tips />
       </div>
 
       {state.currentCycle > 0 && (
