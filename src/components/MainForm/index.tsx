@@ -40,12 +40,6 @@ export function MainForm() {
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
-
-    const worker = new Worker(
-      new URL("../../workers/timerWorkers.js", import.meta.url)
-    );
-
-    worker.postMessage("Olá mundo!");
   }
   function handleInterruptTask(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>

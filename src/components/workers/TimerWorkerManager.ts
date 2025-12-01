@@ -15,7 +15,7 @@ export class TimerWorkerManager {
     return instance;
   }
 
-  postMessage(message: unknown) {
+  postMessage(message: any) {
     this.worker.postMessage(message);
   }
 
