@@ -63,6 +63,15 @@ export function taskReducer(
     case TaskActionTypes.RESET_TASK: {
       return state;
     }
+    case TaskActionTypes.COUNT_DOWN: {
+      return {
+        ...state,
+        secondsRemaining: action.payload.secondsRemaining,
+        formattedSecondsRemaining: formatSecondsToMinutes(
+          action.payload.secondsRemaining
+        ),
+      };
+    }
   }
 
   // Sempre deve retornar o estado
